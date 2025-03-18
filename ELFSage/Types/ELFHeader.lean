@@ -72,7 +72,7 @@ def ELFHeader.ph_end [ELFHeader α] (eh : α) :=
 
 instance [ELFHeader α] : ToString α where
   toString eh :=
-    let ident (i : Fin 16) := (ELFHeader.e_ident eh).bytes.get ⟨ i, by simp [(ELFHeader.e_ident eh).sized] ⟩
+    let ident (i : Fin 16) := (ELFHeader.e_ident eh).bytes[i]'(by simp [(ELFHeader.e_ident eh).sized])
     let identAsHex (i: Fin 16) := toHex (ident i).toNat
     let identAsHexLength2 (i: Fin 16) := toHexMinLength (ident i).toNat 2
     "ElfHeader {\n" ++
@@ -149,7 +149,7 @@ def mkELF64Header (bs : ByteArray) (h : bs.size ≥ 0x40) : ELF64Header := {
   e_shnum     := getUInt16from 0x3C (by omega),
   e_shstrndx  := getUInt16from 0x3E (by omega),
 } where
-  isBigEndian := bs.get ⟨0x5,by omega⟩ == 2
+  isBigEndian := bs[0x5] == 2
   getUInt16from := if isBigEndian then bs.getUInt16BEfrom else bs.getUInt16LEfrom
   getUInt32from := if isBigEndian then bs.getUInt32BEfrom else bs.getUInt32LEfrom
   getUInt64from := if isBigEndian then bs.getUInt64BEfrom else bs.getUInt64LEfrom
@@ -243,7 +243,7 @@ def mkELF32Header (bs : ByteArray) (h : bs.size ≥ 0x34) : ELF32Header := {
   e_shnum     := getUInt16from 0x30 (by omega),
   e_shstrndx  := getUInt16from 0x32 (by omega),
 } where
-  isBigEndian := bs.get ⟨0x5,by omega⟩ == 2
+  isBigEndian := bs[0x5] == 2
   getUInt16from := if isBigEndian then bs.getUInt16BEfrom else bs.getUInt16LEfrom
   getUInt32from := if isBigEndian then bs.getUInt32BEfrom else bs.getUInt32LEfrom
 
@@ -311,7 +311,7 @@ instance : ELFHeader RawELFHeader where
 
 def mkRawELFHeader? (bs : ByteArray) : Except String RawELFHeader :=
   if h : bs.size < 5 then throw "Can't determine if this is a 32 or 64 bit binary (not enough bytes)."
-  else match bs.get ⟨0x4, by omega⟩ with
+  else match bs[0x4] with
   | 1 => .elf32 <$> mkELF32Header? bs
   | 2 => .elf64 <$> mkELF64Header? bs
   | _ => throw "Can't determine if this is a 32 of 64 bit binary (byte 0x5 of the elf header is bad)"

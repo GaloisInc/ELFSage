@@ -1,12 +1,14 @@
+import Std.Tactic.BVDecide
+
 def ByteArray.getUInt64BEfrom (bs : ByteArray) (offset : Nat) (h: bs.size - offset ≥ 8) : UInt64 :=
-  (bs.get ⟨offset + 0, by omega⟩).toUInt64 <<< 0x38 |||
-  (bs.get ⟨offset + 1, by omega⟩).toUInt64 <<< 0x30 |||
-  (bs.get ⟨offset + 2, by omega⟩).toUInt64 <<< 0x28 |||
-  (bs.get ⟨offset + 3, by omega⟩).toUInt64 <<< 0x20 |||
-  (bs.get ⟨offset + 4, by omega⟩).toUInt64 <<< 0x18 |||
-  (bs.get ⟨offset + 5, by omega⟩).toUInt64 <<< 0x10 |||
-  (bs.get ⟨offset + 6, by omega⟩).toUInt64 <<< 0x08 |||
-  (bs.get ⟨offset + 7, by omega⟩).toUInt64
+  bs[offset + 0].toUInt64 <<< 0x38 |||
+  bs[offset + 1].toUInt64 <<< 0x30 |||
+  bs[offset + 2].toUInt64 <<< 0x28 |||
+  bs[offset + 3].toUInt64 <<< 0x20 |||
+  bs[offset + 4].toUInt64 <<< 0x18 |||
+  bs[offset + 5].toUInt64 <<< 0x10 |||
+  bs[offset + 6].toUInt64 <<< 0x08 |||
+  bs[offset + 7].toUInt64
 
 
 def UInt64.getBytesBEfrom (i : UInt64) : ByteArray :=
@@ -21,10 +23,10 @@ def UInt64.getBytesBEfrom (i : UInt64) : ByteArray :=
     ]⟩
 
 def ByteArray.getUInt32BEfrom (bs : ByteArray) (offset : Nat) (h: bs.size - offset ≥ 4) : UInt32 :=
-  (bs.get ⟨offset + 0, by omega⟩).toUInt32 <<< 0x18 |||
-  (bs.get ⟨offset + 1, by omega⟩).toUInt32 <<< 0x10 |||
-  (bs.get ⟨offset + 2, by omega⟩).toUInt32 <<< 0x08 |||
-  (bs.get ⟨offset + 3, by omega⟩).toUInt32
+  bs[offset + 0].toUInt32 <<< 0x18 |||
+  bs[offset + 1].toUInt32 <<< 0x10 |||
+  bs[offset + 2].toUInt32 <<< 0x08 |||
+  bs[offset + 3].toUInt32
 
 def UInt32.getBytesBEfrom (i : UInt32) : ByteArray :=
   ⟨#[ (i >>> 0x18).toUInt8
@@ -34,8 +36,8 @@ def UInt32.getBytesBEfrom (i : UInt32) : ByteArray :=
     ]⟩
 
 def ByteArray.getUInt16BEfrom (bs : ByteArray) (offset : Nat) (h: bs.size - offset ≥ 2) : UInt16 :=
-  (bs.get ⟨offset + 0, by omega⟩).toUInt16 <<< 0x08 |||
-  (bs.get ⟨offset + 1, by omega⟩).toUInt16
+  bs[offset + 0].toUInt16 <<< 0x08 |||
+  bs[offset + 1].toUInt16
 
 def UInt16.getBytesBEfrom (i : UInt16) : ByteArray :=
   ⟨#[ (i >>> 0x8).toUInt8
@@ -45,14 +47,14 @@ def UInt16.getBytesBEfrom (i : UInt16) : ByteArray :=
 --LittleEndian
 
 def ByteArray.getUInt64LEfrom (bs : ByteArray) (offset : Nat) (h: bs.size - offset ≥ 8) : UInt64 :=
-  (bs.get ⟨offset + 7, by omega⟩).toUInt64 <<< 0x38 |||
-  (bs.get ⟨offset + 6, by omega⟩).toUInt64 <<< 0x30 |||
-  (bs.get ⟨offset + 5, by omega⟩).toUInt64 <<< 0x28 |||
-  (bs.get ⟨offset + 4, by omega⟩).toUInt64 <<< 0x20 |||
-  (bs.get ⟨offset + 3, by omega⟩).toUInt64 <<< 0x18 |||
-  (bs.get ⟨offset + 2, by omega⟩).toUInt64 <<< 0x10 |||
-  (bs.get ⟨offset + 1, by omega⟩).toUInt64 <<< 0x08 |||
-  (bs.get ⟨offset + 0, by omega⟩).toUInt64
+  bs[offset + 7].toUInt64 <<< 0x38 |||
+  bs[offset + 6].toUInt64 <<< 0x30 |||
+  bs[offset + 5].toUInt64 <<< 0x28 |||
+  bs[offset + 4].toUInt64 <<< 0x20 |||
+  bs[offset + 3].toUInt64 <<< 0x18 |||
+  bs[offset + 2].toUInt64 <<< 0x10 |||
+  bs[offset + 1].toUInt64 <<< 0x08 |||
+  bs[offset + 0].toUInt64
 
 def UInt64.getBytesLEfrom (i : UInt64) : ByteArray :=
   ⟨#[ (i >>> 0x00).toUInt8
@@ -66,10 +68,10 @@ def UInt64.getBytesLEfrom (i : UInt64) : ByteArray :=
     ]⟩
 
 def ByteArray.getUInt32LEfrom (bs : ByteArray) (offset : Nat) (h: bs.size - offset ≥ 4) : UInt32 :=
-  (bs.get ⟨offset + 3, by omega⟩).toUInt32 <<< 0x18 |||
-  (bs.get ⟨offset + 2, by omega⟩).toUInt32 <<< 0x10 |||
-  (bs.get ⟨offset + 1, by omega⟩).toUInt32 <<< 0x08 |||
-  (bs.get ⟨offset + 0, by omega⟩).toUInt32
+  bs[offset + 3].toUInt32 <<< 0x18 |||
+  bs[offset + 2].toUInt32 <<< 0x10 |||
+  bs[offset + 1].toUInt32 <<< 0x08 |||
+  bs[offset + 0].toUInt32
 
 def UInt32.getBytesLEfrom (i : UInt32) : ByteArray :=
   ⟨#[ (i >>> 0x00).toUInt8
@@ -79,8 +81,8 @@ def UInt32.getBytesLEfrom (i : UInt32) : ByteArray :=
     ]⟩
 
 def ByteArray.getUInt16LEfrom (bs : ByteArray) (offset : Nat) (h: bs.size - offset ≥ 2) : UInt16 :=
-  (bs.get ⟨offset + 1, by omega⟩).toUInt16 <<< 0x08 |||
-  (bs.get ⟨offset + 0, by omega⟩).toUInt16
+  bs[offset + 1].toUInt16 <<< 0x08 |||
+  bs[offset + 0].toUInt16
 
 def UInt16.getBytesLEfrom (i : UInt16) : ByteArray :=
   ⟨#[ (i >>> 0x00).toUInt8
@@ -123,7 +125,7 @@ structure NByteArray (n : Nat) where
 
 def NByteArray.get {n : Nat} (bs : NByteArray n) (m: Nat) (p: m < n) :=
   have size := bs.sized
-  bs.bytes.get ⟨m, by omega⟩
+  bs.bytes[m]
 
 instance : Repr (NByteArray n) where
   reprPrec nbs := reprPrec $ nbs.bytes.toList.map λbyte ↦
@@ -177,7 +179,7 @@ theorem Array.extract_len_aux {src: Array α} :
      · have : n + l + 1 ≤ size src := by omega
        simp only [length_toList] at ih
        rw [ih (l + 1) (push dst src[l]) this]
-       simp_arith
+       simp +arith
      · omega
 
 theorem Array.extract_loop_len {src : Array α} :
@@ -191,12 +193,14 @@ theorem Array.extract_loop_len {src : Array α} :
 def NByteArray.extract (bs : ByteArray) (n : Nat) (h : bs.size ≥ n) : NByteArray n :=
   let bytes := bs.extract 0 n
   let proof : bytes.size = n := by
-      simp [ ByteArray.size
+      simp [bytes]
+      simp [ bytes
+           , ByteArray.size
            , ByteArray.extract
            , ByteArray.copySlice
            , Array.extract
            , ByteArray.empty
-           , ByteArray.mkEmpty
+           , ByteArray.emptyWithCapacity
            ]
       have : ∀α, ∀n : Nat, @Array.extract.loop α #[] 0 n #[] = #[] := by
         unfold Array.extract.loop
@@ -213,7 +217,7 @@ def NByteArray.extract (bs : ByteArray) (n : Nat) (h : bs.size ≥ n) : NByteArr
                  ge_iff_le, Array.size_append,
                  List.length_append, implies_true,
                  Nat.min_def, Nat.zero_add,
-                 Array.toList_toArray, List.length_nil,
+                 List.toList_toArray, List.length_nil,
                  Nat.add_zero, ite_eq_left_iff, Nat.not_le]
         at *
       · omega
@@ -229,25 +233,12 @@ def NByteArray.extract (bs : ByteArray) (n : Nat) (h : bs.size ≥ n) : NByteArr
 
 theorem UInt16.ByteArray_size : ∀ i : UInt16, i.getBytesBEfrom.size = 2 := by
   intro i
+  rcases 4 <;>
   simp [UInt16.getBytesBEfrom, ByteArray.size]
 
-theorem UInt8_to_UInt16_round: ∀{i : UInt8}, i.toUInt16.toUInt8 = i := by
-  rintro ⟨i⟩
-  simp [UInt16.toUInt8, Nat.toUInt8, UInt8.ofNat]
-  apply UInt8.eq_of_val_eq
-  simp
-  rcases i with ⟨val, lt⟩
-  apply Fin.eq_of_val_eq
-  simp [Fin.ofNat, UInt16.toNat, UInt8.toUInt16, Nat.toUInt16, UInt16.ofNat, UInt8.toNat]
-  unfold UInt8.size at lt
-  omega
+theorem UInt8_to_UInt16_round {i : UInt8} : i.toUInt16.toUInt8 = i := UInt8.toUInt8_toUInt16 i
 
-theorem UInt16_to_UInt8_round: ∀{i : UInt16}, i.toUInt8.toUInt16 = i % 256:= by
-  rintro ⟨i⟩
-  simp [UInt8.toUInt16, Nat.toUInt16, UInt16.ofNat, HMod.hMod, instHMod, Mod.mod, UInt16.mod]
-  apply UInt16.eq_of_val_eq
-  simp only [UInt16.toUInt8, Nat.toUInt8, UInt8.ofNat, Fin.ofNat, Nat.succ_eq_add_one,
-    Nat.reduceAdd, UInt16.toNat, Fin.mod, Nat.reduceMod]
+theorem UInt16_to_UInt8_round: ∀{i : UInt16}, i.toUInt8.toUInt16 = i % 256:= rfl
 
 theorem Nat.bitwise_sum : ∀{n m k : Nat}, m % 2^n = 0 → k < 2^n → m ||| k = m + k := by
   intro n m k eq lt
@@ -275,56 +266,7 @@ theorem Nat.bitwise_sum : ∀{n m k : Nat}, m % 2^n = 0 → k < 2^n → m ||| k 
 
 -/
 
-macro "lower_to_nat" i:Lean.Parser.Tactic.casesTarget: tactic => `(tactic|(
-  simp [
-    HShiftRight.hShiftRight,
-    ShiftRight.shiftRight,
-    UInt16.shiftRight,
-    UInt32.shiftRight,
-    Fin.shiftRight,
-
-    HShiftLeft.hShiftLeft,
-    ShiftLeft.shiftLeft,
-    UInt32.shiftLeft,
-    UInt16.shiftLeft,
-    Fin.shiftLeft,
-
-    HMod.hMod,
-    Mod.mod,
-    UInt16.mod,
-    UInt16.modn,
-    UInt32.mod,
-    UInt32.modn,
-    Fin.mod,
-    Fin.div,
-    show (8 : UInt16).val = 8 by decide,
-    show (8 : UInt32).val = 8 by decide,
-    show (16 : UInt32).val = 16 by decide,
-    show (24 : UInt32).val = 24 by decide,
-    show (8 : Fin (2^16)).val = 8 by decide,
-    show (8 : Fin (2^32)).val = 8 by decide,
-    show (16 : Fin (2^32)).val = 16 by decide,
-    show (24 : Fin (2^32)).val = 24 by decide,
-    show Nat.mod 8 16 = 8 by decide,
-    show Nat.mod 8 32 = 8 by decide,
-    show Nat.mod 16 32 = 16 by decide,
-    show Nat.mod 24 32 = 24 by decide,
-    show Nat.mod 256 65536 = 256 by decide,
-
-    HOr.hOr,
-    OrOp.or,
-  ]
-  rcases $i with ⟨val⟩
-  try apply UInt16.eq_of_val_eq
-  try apply UInt32.eq_of_val_eq
-  simp_arith
-  rcases val with ⟨val, lt_val⟩
-  apply Fin.eq_of_val_eq
-  simp_arith
-))
-
-theorem UInt16.nullShift : ∀{i : UInt16}, i >>> 0 = i := by
-  intro i; lower_to_nat i; apply Nat.mod_eq_of_lt; assumption
+theorem UInt16.nullShift : ∀{i : UInt16}, i >>> 0 = i := rfl
 
 @[simp]
 theorem Nat.bitwise_zero_left : bitwise f 0 m = if f false true then m else 0 := by
@@ -333,7 +275,7 @@ theorem Nat.bitwise_zero_left : bitwise f 0 m = if f false true then m else 0 :=
 @[simp]
 theorem Nat.bitwise_zero_right : bitwise f n 0 = if f true false then n else 0 := by
   unfold bitwise
-  simp only [ite_self, decide_False, Nat.zero_div, ite_true, ite_eq_right_iff]
+  simp only [ite_self, decide_false, Nat.zero_div, ite_true, ite_eq_right_iff]
   rintro ⟨⟩
   split <;> rfl
 
@@ -407,7 +349,7 @@ theorem Nat.shiftLeft_mod : w + m ≥ k → (n % 2^w) <<< m % 2^k = n <<< m % 2^
         simp_all [Nat.mul_assoc]
       simp [Nat.mul_mod_mul_left]
       rw [ih_k]
-      simp_arith at hyp
+      simp +arith at hyp
       assumption
 
 --TODO: this should generalize to arbitrary bitwise ops.
@@ -419,12 +361,12 @@ theorem Nat.bitwise_mod : Nat.bitwise or m n % 2^k = Nat.bitwise or (m % 2^k) (n
   have h_n := @Nat.mod_lt n (2^k) (by exact Nat.two_pow_pos k)
   by_cases h : i < k
   case pos =>
-    simp only [h, decide_True, Bool.true_and]
+    simp only [h, decide_true, Bool.true_and]
     rw [@testBit_bitwise or (by simp only [Bool.or_self]) (m % 2^k) (n % 2^k) i]
     rw [@testBit_bitwise or (by simp only [Bool.or_self]) m n i]
-    simp only [testBit_mod_two_pow, h, decide_True, Bool.true_and]
+    simp only [testBit_mod_two_pow, h, decide_true, Bool.true_and]
   case neg =>
-    simp only [h, decide_False, Bool.false_and, Bool.false_eq]
+    simp only [h, decide_false, Bool.false_and, Bool.false_eq]
     have h_k_i : 2^k <= 2^i := by
       apply Nat.pow_le_pow_of_le (by omega) (by omega)
     generalize h_x : (bitwise or (m % 2 ^ k) (n % 2 ^ k)) = x
@@ -456,17 +398,8 @@ theorem Nat.shiftLeft_distribute : ∀n : Nat, (x ||| y) <<< n = (x <<< n) ||| (
   intro n; simp [Nat.shiftLeft_toExp, Nat.or_mul_dist]
 
 @[simp]
-theorem UInt16.byteCeiling :  ∀(i  : UInt16), (i >>> 0x8) % 256 = i >>> 0x8 := by
-  intro i; lower_to_nat i; rename_i val lt₁
-
-  suffices (val >>> 0x8) % size % 256 = val >>> 0x8 % size by assumption
-  rw [Nat.shiftRight_toDiv]
-  have lt₂ : val / 2^8 < 256 := by
-    apply (Nat.div_lt_iff_lt_mul (show 0 < 2^8 by decide)).mpr
-    exact lt₁
-  have lt₃ : val / 2^8 < size := by
-    apply Nat.lt_trans lt₂; decide
-  simp [Nat.mod_eq_of_lt lt₂, Nat.mod_eq_of_lt lt₃]
+theorem UInt16.byteCeiling :  ∀(i  : UInt16), (i >>> 0x8) % (256 : UInt16) = i >>> 0x8 := by
+  bv_decide
 
 theorem Nat.splitBytes : ∀n: Nat, n = n >>> 0x8 <<< 0x8 ||| n % 256 := by
   intro n
@@ -478,83 +411,14 @@ theorem Nat.splitBytes : ∀n: Nat, n = n >>> 0x8 <<< 0x8 ||| n % 256 := by
   · apply Nat.mod_lt; trivial
 
 theorem UInt16.shiftUnshift : ∀(i  : UInt16), i = (i >>> 0x8 % 256) <<< 0x8 ||| i % 256 := by
-  intro i; lower_to_nat i; rename_i val lt₁
-  unfold lor; unfold Fin.lor
-  simp [
-    show ∀x y, Nat.lor x y = x ||| y by intro x y; rfl,
-    show ∀x y, Nat.shiftRight x y = x >>> y by intro x y; rfl,
-    show ∀x y, Nat.shiftLeft x y = x <<< y by intro x y; rfl,
-    show ∀x y, Nat.mod x y = x % y by intro x y; rfl,
-  ]
-  rw [
-    show 256 = 2^8 by decide,
-    show size = 2^16 by decide,
-    Nat.shiftLeft_mod (show 8 + 8 ≥ 16 by decide),
-    Nat.shiftLeft_mod (show 16 + 8 ≥ 16 by decide),
-    ←Nat.mod_pow_lt_outer (show 2 > 1 by decide) (show 16 ≥ 8 by decide),
-    ←Nat.bitwise_or_mod,
-    ←Nat.splitBytes,
-    Nat.mod_mod
-  ]
-  apply Eq.symm
-  apply Nat.mod_eq_of_lt
-  assumption
+  bv_decide
 
 theorem UInt32.shiftUnshift : ∀(i  : UInt32),
   i = (i >>> 0x18 % 256) <<< 0x18 |||
       (i >>> 0x10 % 256) <<< 0x10 |||
       (i >>> 0x08 % 256) <<< 0x08 |||
       i % 256 := by
-  intro i;
-  lower_to_nat i; rename_i val lt₁
-  unfold lor
-  unfold Fin.lor; simp
-  simp [
-    show ∀x y, Nat.lor x y = x ||| y by intro x y; rfl,
-    show ∀x y, Nat.shiftRight x y = x >>> y by intro x y; rfl,
-    show ∀x y, Nat.shiftLeft x y = x <<< y by intro x y; rfl,
-    show ∀x y, Nat.mod x y = x % y by intro x y; rfl,
-  ]
-  rw [show 256 = 2^8 by decide]
-  rw [show size = 2^32 by decide]
-  repeat rw [Nat.mod_pow_lt_inner]
-  all_goals try decide
-  suffices
-    val = (val >>> 24 % 2^8) <<< 24 |||
-          (val >>> 16 % 2^8) <<< 16 |||
-          (val >>> 8 % 2^8)  <<< 8  |||
-          val % 2^8
-  by
-    have eq : val % 2^32 = val % 2^32 := by rfl
-    conv at eq => rhs; rw [this]
-    conv at eq => lhs; rw [Nat.mod_eq_of_lt lt₁]
-    repeat rw [Nat.bitwise_or_mod]
-    rw [←Nat.mod_mod, ←Nat.mod_mod, ←Nat.mod_mod] at eq
-    repeat rw [Nat.bitwise_or_mod] at eq
-    repeat rw [Nat.mod_mod] at eq
-    repeat rw [Nat.mod_mod]
-    exact eq
-  have : val >>> 24 % 2 ^ 8 = val >>> 24 := by
-    apply Nat.mod_eq_of_lt
-    apply Nat.lt_of_lt_of_le (m:= size >>> 24)
-    · repeat rw [Nat.shiftRight_toDiv]
-      apply Nat.div_lt_of_lt_mul
-      apply Nat.lt_of_lt_of_le (m:= size)
-      · assumption
-      · rw [Nat.mul_comm, Nat.div_mul_cancel] <;> simp_arith
-    · simp_arith
-  rw [
-    this,
-    Nat.shiftRight_add val 16 8,
-    Nat.shiftLeft_add _ 8 16,
-    ←Nat.shiftLeft_distribute,
-    ←Nat.splitBytes,
-    Nat.shiftRight_add val 8 8,
-    Nat.shiftLeft_add _ 8 8,
-    ←Nat.shiftLeft_distribute,
-    ←Nat.splitBytes,
-    ←Nat.splitBytes
-  ]
+  bv_decide
 
 theorem UInt64.shiftUnshift : ∀(i  : UInt64),
   i = (i >>> 0x38 % 256) <<< 0x38 |||
@@ -564,7 +428,8 @@ theorem UInt64.shiftUnshift : ∀(i  : UInt64),
       (i >>> 0x18 % 256) <<< 0x18 |||
       (i >>> 0x10 % 256) <<< 0x10 |||
       (i >>> 0x08 % 256) <<< 0x08 |||
-      i % 256 := sorry
+      i % 256 := by
+  bv_decide
 
 theorem UInt16.ByteArray_roundtrip :
   ∀ i : UInt16, ∀l, i.getBytesBEfrom.getUInt16BEfrom 0 l = i := by
@@ -574,7 +439,6 @@ theorem UInt16.ByteArray_roundtrip :
     UInt16.getBytesBEfrom,
     ByteArray.getUInt16BEfrom,
     ByteArray.get,
-    Array.get,
     List.get,
     UInt16_to_UInt8_round,
     UInt16_to_UInt8_round,

@@ -125,7 +125,7 @@ inductive RawELFFile where
 
 def mkRawELFFile? (bytes : ByteArray) : Except String RawELFFile :=
   if h : bytes.size < 5 then throw "Can't determine if this is a 32 or 64 bit binary (not enough bytes)."
-  else match bytes.get ⟨0x4, by omega⟩ with
+  else match bytes[0x4] with
   | 1 => .elf32 <$> mkELF32File? bytes
   | 2 => .elf64 <$> mkELF64File? bytes
   | _ => throw "Can't determine if this is a 32 of 64 bit binary (byte 0x5 of the elf header is bad)"
