@@ -200,7 +200,7 @@ def NByteArray.extract (bs : ByteArray) (n : Nat) (h : bs.size ≥ n) : NByteArr
            , ByteArray.copySlice
            , Array.extract
            , ByteArray.empty
-           , ByteArray.emptyWithCapacity
+           , ByteArray.mkEmpty
            ]
       have : ∀α, ∀n : Nat, @Array.extract.loop α #[] 0 n #[] = #[] := by
         unfold Array.extract.loop
