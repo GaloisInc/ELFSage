@@ -235,7 +235,7 @@ def ELF32Header.mkELF32SectionHeaderTable?
   List.mapM (λoffset ↦ mkELF32SectionHeaderTableEntry? isBigendian bytes offset) shoffsets
 
 
-inductive RawSectionHeaderTableEntry :=
+inductive RawSectionHeaderTableEntry where
   | elf32 : ELF32SectionHeaderTableEntry → RawSectionHeaderTableEntry
   | elf64 : ELF64SectionHeaderTableEntry → RawSectionHeaderTableEntry
   deriving Repr
@@ -263,6 +263,6 @@ def mkRawSectionHeaderTableEntry?
   then .elf64 <$> mkELF64SectionHeaderTableEntry? isBigendian bs offset
   else .elf32 <$> mkELF32SectionHeaderTableEntry? isBigendian bs offset
 
-inductive RawSectionHeaderTable :=
+inductive RawSectionHeaderTable where
   | elf32 : List ELF32SectionHeaderTableEntry → RawSectionHeaderTable
   | elf64 : List ELF64SectionHeaderTableEntry → RawSectionHeaderTable

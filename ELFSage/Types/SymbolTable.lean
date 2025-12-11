@@ -94,7 +94,7 @@ def mkELF32SymbolTableEntry
     getUInt16from := if isBigEndian then bs.getUInt16BEfrom else bs.getUInt16LEfrom
     getUInt32from := if isBigEndian then bs.getUInt32BEfrom else bs.getUInt32LEfrom
 
-inductive RawSymbolTableEntry :=
+inductive RawSymbolTableEntry where
   | elf32 : ELF32SymbolTableEntry → RawSymbolTableEntry
   | elf64 : ELF64SymbolTableEntry → RawSymbolTableEntry
   deriving Repr

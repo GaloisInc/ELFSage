@@ -139,7 +139,7 @@ instance : RelocationA ELF64RelocationA where
     ra_addend ra := ra.ra_addend.toInt
     bytes     ra := ra.bytes
 
-inductive RawRelocation :=
+inductive RawRelocation where
   | elf64 : ELF64Relocation → RawRelocation
   | elf32 : ELF32Relocation → RawRelocation
   deriving Repr
@@ -169,7 +169,7 @@ def mkRawRelocation?
     s! "Tried to find a relocation at {offset}, but that doesn't leave enough space for the entry, " ++
     s! "which requires {size} bytes."
 
-inductive RawRelocationA :=
+inductive RawRelocationA where
   | elf64 : ELF64RelocationA → RawRelocationA
   | elf32 : ELF32RelocationA → RawRelocationA
   deriving Repr

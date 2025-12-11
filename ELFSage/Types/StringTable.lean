@@ -17,11 +17,11 @@ def ELFStringTable.stringAt (st : ELFStringTable) (idx : Nat) : String :=
   | Option.none =>
     let range := st.strings.extract idx st.strings.size
     let chars := range.toList.map (λbyte => Char.ofNat byte.toNat)
-    String.mk chars
+    String.ofList chars
   | Option.some idx₂ =>
     let range := st.strings.extract idx idx₂
     let chars := range.toList.map (λbyte => Char.ofNat byte.toNat)
-    String.mk chars
+    String.ofList chars
 
 structure StringTableEntry where
   /-- String associated with a string table entry --/
@@ -39,7 +39,7 @@ def ELFStringTable.allStrings (st : ELFStringTable) : List StringTableEntry := I
     if ptr = 0 then do
       let range := st.strings.extract idx idx₂
       let chars := range.toList.map (λbyte => Char.ofNat byte.toNat)
-      rslt := ⟨String.mk chars, idx⟩::rslt
+      rslt := ⟨String.ofList chars, idx⟩::rslt
       idx := idx₂ + 1 -- point to the head of the next string, if there is one
     idx₂ := idx₂ + 1 -- sync with ptr
   return rslt

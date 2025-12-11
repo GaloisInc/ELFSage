@@ -334,7 +334,7 @@ instance : DynamicEntry ELF64DynamicEntry where
     | .d_ignored bs => .d_ignored bs
   bytes de := de.bytes
 
-inductive RawDynamicEntry :=
+inductive RawDynamicEntry where
   | elf64 : ELF64DynamicEntry → RawDynamicEntry
   | elf32 : ELF32DynamicEntry → RawDynamicEntry
   deriving Repr

@@ -131,13 +131,13 @@ instance : Repr (NByteArray n) where
   reprPrec nbs := reprPrec $ nbs.bytes.toList.map λbyte ↦
     Nat.toDigits 16 byte.toNat
     |> (λl ↦ if l.length == 1 then '0' :: l else l)
-    |> List.asString
+    |> String.ofList
 
 instance : Repr ByteArray where
   reprPrec nbs := reprPrec $ nbs.data.toList.map λbyte ↦
     Nat.toDigits 16 byte.toNat
     |> (λl ↦ if l.length == 1 then '0' :: l else l)
-    |> List.asString
+    |> String.ofList
 
 /-
 
@@ -194,42 +194,9 @@ def NByteArray.extract (bs : ByteArray) (n : Nat) (h : bs.size ≥ n) : NByteArr
   let bytes := bs.extract 0 n
   let proof : bytes.size = n := by
       simp [bytes]
-      simp [ bytes
-           , ByteArray.size
-           , ByteArray.extract
-           , ByteArray.copySlice
-           , Array.extract
-           , ByteArray.empty
-           , ByteArray.emptyWithCapacity
-           ]
-      have : ∀α, ∀n : Nat, @Array.extract.loop α #[] 0 n #[] = #[] := by
-        unfold Array.extract.loop
-        split; simp; contradiction
-      rw [this, this]
-      simp
-      have : bs.data.size = bs.size := by
-        simp [ByteArray.size]
-      have :  (min n (List.length bs.toList)) + 0 ≤ bs.data.size := by
-        rw [Nat.min_def]
-        split <;> omega
-      rw [Array.extract_loop_len (min n bs.data.size) 0 #[]]
-      simp only [ByteArray.size, Array.size,
-                 ge_iff_le, Array.size_append,
-                 List.length_append, implies_true,
-                 Nat.min_def, Nat.zero_add,
-                 List.toList_toArray, List.length_nil,
-                 Nat.add_zero, ite_eq_left_iff, Nat.not_le]
-        at *
-      · omega
-      · simp [Nat.min_def]; split
-        · assumption
-        · simp only [ByteArray.size, Array.size,
-                     ge_iff_le, Array.size_append,
-                     List.length_append, implies_true,
-                     Nat.min_def, Nat.zero_add,
-                     Nat.not_le, Nat.le_refl]
-            at *
-    ⟨bytes, proof⟩
+      rw [Nat.min_eq_left]
+      trivial
+  ⟨bytes, proof⟩
 
 theorem UInt16.ByteArray_size : ∀ i : UInt16, i.getBytesBEfrom.size = 2 := by
   intro i
@@ -246,7 +213,7 @@ theorem Nat.bitwise_sum : ∀{n m k : Nat}, m % 2^n = 0 → k < 2^n → m ||| k 
     apply Nat.mul_div_cancel'
     exact Nat.dvd_of_mod_eq_zero eq
   rw [←this]
-  rw [Nat.mul_add_lt_is_or]
+  rw [Nat.two_pow_add_eq_or_of_lt]
   assumption
 
 /--
@@ -275,7 +242,7 @@ theorem Nat.bitwise_zero_left : bitwise f 0 m = if f false true then m else 0 :=
 @[simp]
 theorem Nat.bitwise_zero_right : bitwise f n 0 = if f true false then n else 0 := by
   unfold bitwise
-  simp only [ite_self, decide_false, Nat.zero_div, ite_true, ite_eq_right_iff]
+  simp only [ite_self, Nat.zero_div, ite_true, ite_eq_right_iff]
   rintro ⟨⟩
   split <;> rfl
 
@@ -438,11 +405,6 @@ theorem UInt16.ByteArray_roundtrip :
   simp [
     UInt16.getBytesBEfrom,
     ByteArray.getUInt16BEfrom,
-    ByteArray.get,
-    List.get,
-    UInt16_to_UInt8_round,
-    UInt16_to_UInt8_round,
-    UInt16.nullShift,
   ]
 
   apply Eq.symm

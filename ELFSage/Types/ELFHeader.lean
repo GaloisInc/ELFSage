@@ -287,7 +287,7 @@ instance : ELFHeader ELF32Header where
   e_shstrndx eh   := eh.e_shstrndx.toNat
   bytes eh        := eh.bytes
 
-inductive RawELFHeader :=
+inductive RawELFHeader where
   | elf32 : ELF32Header → RawELFHeader
   | elf64 : ELF64Header → RawELFHeader
   deriving Repr

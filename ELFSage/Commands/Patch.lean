@@ -35,7 +35,7 @@ def RawELFFile.serialize (elffile : RawELFFile) : IO ByteArray := do
   -- copySlice grows the target bytearray if needed, but it won't insert the
   -- source array beyond the final byte of the target array.
 
-  let mut outBytes := ByteArray.mkEmpty elffile.getFileSize
+  let mut outBytes := ByteArray.emptyWithCapacity elffile.getFileSize
 
   for _ in [:elffile.getFileSize] do
     outBytes := outBytes.push 0
