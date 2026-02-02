@@ -39,7 +39,8 @@ def checkImplemented (p: Cli.Parsed) : Except String Unit := do
 def printSymbolsForSection
   (elffile : RawELFFile)
   (shte: RawSectionHeaderTableEntry)
-  (sec : InterpretedSection) :=
+  (sec : InterpretedSection)
+  : IO Unit :=
   for idx in [:SectionHeaderTableEntry.sh_size shte / SectionHeaderTableEntry.sh_entsize shte] do
     IO.print s!"Symbol {idx}: "
     let offset := idx * SectionHeaderTableEntry.sh_entsize shte
@@ -124,7 +125,7 @@ def printHexForSymbolIdx (elffile : RawELFFile) (idx : Nat) :=
   | .error warn => IO.println warn
   | .ok bytes => dumpBytesAsHex bytes
 
-def printDynamics (elffile : RawELFFile) :=
+def printDynamics (elffile : RawELFFile) : IO Unit :=
   let dynamics := elffile.getRawSectionHeaderTableEntries.filter $ λsec ↦
     SectionHeaderTableEntry.sh_type sec.fst == ELFSectionHeaderTableEntry.Type.SHT_DYNAMIC
   for ⟨shte, sec⟩ in dynamics do
@@ -166,7 +167,7 @@ def printNotes
           then recur (spaceminus - (notesize - 1)) (offset + notesize)
           else pure ()
 
-def printNoteSections (elffile: RawELFFile) :=
+def printNoteSections (elffile: RawELFFile) : IO Unit :=
   for ⟨shte, sec⟩ in elffile.getRawSectionHeaderTableEntries do
     if SectionHeaderTableEntry.sh_type shte == ELFSectionHeaderTableEntry.Type.SHT_NOTE then
       match sec.section_name_as_string with
@@ -177,7 +178,8 @@ def printNoteSections (elffile: RawELFFile) :=
 def printRelocationA
   (elffile : RawELFFile)
   (shte : RawSectionHeaderTableEntry)
-  (sec : InterpretedSection) :=
+  (sec : InterpretedSection)
+  : IO Unit :=
   for idx in [:SectionHeaderTableEntry.sh_size shte / SectionHeaderTableEntry.sh_entsize shte] do
     IO.print s!"Relocation {idx}: "
     let offset := idx * SectionHeaderTableEntry.sh_entsize shte
@@ -201,7 +203,8 @@ def printRelocationA
   where
     linkedSymbolNames := SectionHeaderTableEntry.sh_link shte
 
-def printRelocationSections (elffile: RawELFFile) :=
+def printRelocationSections (elffile: RawELFFile)
+  : IO Unit :=
   let relocations := elffile.getRawSectionHeaderTableEntries.filter $ λsec ↦
     SectionHeaderTableEntry.sh_type sec.fst == ELFSectionHeaderTableEntry.Type.SHT_RELA
   for ⟨shte, sec⟩ in relocations do

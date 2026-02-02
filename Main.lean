@@ -49,8 +49,8 @@ def readCmd : Cmd := `[Cli|
     symbols;                    "An alias for --syms"
     "dyn-syms";                 "Display the dynamic symbol table"
     "lto-syms";                 "Display LTO symbol tables"
-    "sym-base";                 "--sym-base=[0|8|10|16]. Force base for symbol sizes." ++
-                                "The options are  mixed (the default), octal, decimal, hexadecimal."
+    "sym-base";                 "--sym-base=[0|8|10|16]. Force base for symbol sizes. \
+                                 The options are  mixed (the default), octal, decimal, hexadecimal."
     C,  "demangle";             "--demangle [STYLE]. Decode mangled/processed symbol names"
     n,  "notes";                "Display the core notes (if present)"
     r,  "relocs";               "Display the relocations (if present)"
@@ -61,14 +61,14 @@ def readCmd : Cmd := `[Cli|
     c,  "archive-index";        "Display the symbol/file index in an archive"
     D,  "use-dynamic";          "Use the dynamic section info when displaying symbols"
     L,  "lint";                 "Display warning messages for possible problems"
-    x,  "hex-dump" : String;       "hex-dump=<number|name>. " ++
-                                "Dump the contents of section <number|name> as bytes"
-    p,  "string-dump" : Nat;    "--string-dump=<number|name>. " ++
-                                "Dump the contents of section <number|name> as strings"
-    "sym-dump" : Nat;           "sym-dump=<number|name>. " ++
-                                "Dump the bytes designated by symbol <number|name>"
-    R,  "relocated-dump";       "--relocated-dump=<number|name>" ++
-                                "Dump the relocated contents of section <number|name>"
+    x,  "hex-dump" : String;    "hex-dump=<number|name>. \
+                                 Dump the contents of section <number|name> as bytes"
+    p,  "string-dump" : Nat;    "--string-dump=<number|name>. \
+                                 Dump the contents of section <number|name> as strings"
+    "sym-dump" : Nat;           "sym-dump=<number|name>. \
+                                 Dump the bytes designated by symbol <number|name>"
+    R,  "relocated-dump";       "--relocated-dump=<number|name> \
+                                 Dump the relocated contents of section <number|name>"
     z,   "decompress";          "Decompress section before dumping it"
 
   ARGS:

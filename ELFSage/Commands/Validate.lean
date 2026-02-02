@@ -97,7 +97,8 @@ def printRelocationAErrs
   [ELFHeader α] (eh : α)
   (shte : RawSectionHeaderTableEntry)
   (sec : InterpretedSection)
-  (sidx : Nat) :=
+  (sidx : Nat)
+  : IO Unit :=
   for idx in [:SectionHeaderTableEntry.sh_size shte / SectionHeaderTableEntry.sh_entsize shte] do
     let offset := idx * SectionHeaderTableEntry.sh_entsize shte
     match mkRawRelocationA?
@@ -113,7 +114,8 @@ def printSymbolErrs
   [ELFHeader α] (eh : α)
   (shte: RawSectionHeaderTableEntry)
   (sec: InterpretedSection)
-  (sidx : Nat) :=
+  (sidx : Nat)
+  : IO Unit :=
   for idx in [:SectionHeaderTableEntry.sh_size shte / SectionHeaderTableEntry.sh_entsize shte] do
     let offset := idx * SectionHeaderTableEntry.sh_entsize shte
     match mkRawSymbolTableEntry?
